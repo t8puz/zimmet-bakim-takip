@@ -1,0 +1,261 @@
+<Page x:Class="Zimmet_Bakim_Takip.Pages.AssignmentsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Zimmet_Bakim_Takip.Pages"
+      xmlns:utilities="clr-namespace:Zimmet_Bakim_Takip.Utilities"
+      xmlns:converters="clr-namespace:Zimmet_Bakim_Takip.Converters"
+      mc:Ignorable="d" 
+      d:DesignHeight="600" d:DesignWidth="800"
+      Title="Zimmet Listesi">
+
+    <Page.Resources>
+        <converters:StatusToBrushConverter x:Key="StatusToBrushConverter"/>
+        
+        <!-- ListView Öğesi için Stil -->
+        <Style x:Key="ListViewItemStyle" TargetType="ListViewItem">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="15,10"/>
+            <Setter Property="Margin" Value="0,2"/>
+            <Setter Property="Foreground" Value="{DynamicResource PrimaryTextBrush}"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListViewItem">
+                        <Border x:Name="border" Background="{TemplateBinding Background}" 
+                                BorderThickness="{TemplateBinding BorderThickness}" 
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                Margin="{TemplateBinding Margin}"
+                                Padding="{TemplateBinding Padding}"
+                                CornerRadius="4">
+                            <ContentPresenter HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="{DynamicResource SidebarBackgroundBrush}"/>
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter Property="Background" Value="{DynamicResource PrimaryBrush}"/>
+                                <Setter Property="Foreground" Value="{DynamicResource PrimaryTextBrush}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
+        <!-- İşlem Butonu Stili -->
+        <Style x:Key="ActionButtonStyle" TargetType="Button">
+            <Setter Property="Width" Value="30"/>
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Foreground" Value="{DynamicResource PrimaryTextBrush}"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border" Background="{TemplateBinding Background}" 
+                                BorderThickness="{TemplateBinding BorderThickness}" 
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                CornerRadius="5">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Opacity" Value="0.8"/>
+                                <Setter Property="Background" Value="{DynamicResource SidebarBackgroundBrush}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Buton için genel stil -->
+        <Style x:Key="CustomButtonStyle" TargetType="Button">
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="15,0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border" 
+                                Background="{TemplateBinding Background}" 
+                                BorderBrush="{TemplateBinding BorderBrush}" 
+                                BorderThickness="{TemplateBinding BorderThickness}" 
+                                CornerRadius="8">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Opacity" Value="0.9"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Opacity" Value="0.8"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Page.Resources>
+
+    <Grid Background="{DynamicResource SecondaryBackgroundBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Üst Araç Çubuğu -->
+        <Grid Grid.Row="0" Margin="0,0,0,20">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Arama Kutusu -->
+            <Border Background="{DynamicResource CardBackgroundBrush}" CornerRadius="8" Height="40" MaxWidth="400" HorizontalAlignment="Left">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="40"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="&#xE721;" FontFamily="Segoe MDL2 Assets" Foreground="{DynamicResource TertiaryTextBrush}" 
+                             FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <TextBox x:Name="SearchBox" Grid.Column="1" Background="Transparent" BorderThickness="0" 
+                             Foreground="{DynamicResource PrimaryTextBrush}" VerticalAlignment="Center" Margin="0,0,10,0"
+                             FontSize="14" Padding="0,5,0,0"
+                             TextChanged="SearchBox_TextChanged"
+                             Text=""/>
+                </Grid>
+            </Border>
+
+            <!-- Kontrol Butonları -->
+            <StackPanel Grid.Column="1" Orientation="Horizontal">
+                <Button Content="Yeni Zimmet" Style="{StaticResource CustomButtonStyle}" 
+                        Background="{DynamicResource PrimaryBrush}" Foreground="{DynamicResource PrimaryTextBrush}" 
+                        Click="AddAssignment_Click"/>
+                <Button Content="Yenile" Style="{StaticResource CustomButtonStyle}" 
+                        Background="{DynamicResource CardBackgroundBrush}" Foreground="{DynamicResource PrimaryTextBrush}" 
+                        Margin="10,0,0,0" Click="RefreshButton_Click"/>
+            </StackPanel>
+        </Grid>
+
+        <!-- Zimmet Listesi -->
+        <Border Grid.Row="1" Background="{DynamicResource CardBackgroundBrush}" CornerRadius="12">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <!-- Tablo Başlıkları -->
+                <Grid Grid.Row="0" Margin="20,15,20,15">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="50"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="120"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Text="#" Foreground="{DynamicResource TertiaryTextBrush}" FontSize="14" FontWeight="SemiBold"/>
+                    <TextBlock Text="Cihaz" Grid.Column="1" Foreground="{DynamicResource TertiaryTextBrush}" FontSize="14" FontWeight="SemiBold"/>
+                    <TextBlock Text="Personel" Grid.Column="2" Foreground="{DynamicResource TertiaryTextBrush}" FontSize="14" FontWeight="SemiBold"/>
+                    <TextBlock Text="Zimmet Tarihi" Grid.Column="3" Foreground="{DynamicResource TertiaryTextBrush}" FontSize="14" FontWeight="SemiBold"/>
+                    <TextBlock Text="Durum" Grid.Column="4" Foreground="{DynamicResource TertiaryTextBrush}" FontSize="14" FontWeight="SemiBold"/>
+                    <TextBlock Text="İşlemler" Grid.Column="5" Foreground="{DynamicResource TertiaryTextBrush}" FontSize="14" FontWeight="SemiBold" HorizontalAlignment="Center"/>
+                </Grid>
+
+                <!-- Zimmet Verileri -->
+                <ListView x:Name="lvAssignments" Grid.Row="1" BorderThickness="0" Background="Transparent" 
+                          ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                          ScrollViewer.VerticalScrollBarVisibility="Auto"
+                          ItemContainerStyle="{StaticResource ListViewItemStyle}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Height="40">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="50"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="120"/>
+                                </Grid.ColumnDefinitions>
+
+                                <!-- Dinamik Veri Bağlantıları -->
+                                <TextBlock Text="{Binding Id}" 
+                                        Foreground="{DynamicResource PrimaryTextBrush}" 
+                                        FontSize="14" 
+                                        VerticalAlignment="Center"/>
+                                
+                                <TextBlock Text="{Binding Device.Name}" 
+                                        Grid.Column="1" 
+                                        Foreground="{DynamicResource PrimaryTextBrush}" 
+                                        FontSize="14" 
+                                        VerticalAlignment="Center"/>
+                                
+                                <TextBlock Text="{Binding Personnel.FullName}" 
+                                        Grid.Column="2" 
+                                        Foreground="{DynamicResource PrimaryTextBrush}" 
+                                        FontSize="14" 
+                                        VerticalAlignment="Center"/>
+                                
+                                <TextBlock Text="{Binding AssignmentDate, StringFormat={}{0:dd.MM.yyyy}}" 
+                                        Grid.Column="3" 
+                                        Foreground="{DynamicResource PrimaryTextBrush}" 
+                                        FontSize="14" 
+                                        VerticalAlignment="Center"/>
+                                
+                                <!-- Durum Bilgisi -->
+                                <Border Grid.Column="4" 
+                                        Background="{Binding Status, Converter={StaticResource StatusToBrushConverter}}" 
+                                        CornerRadius="4" Width="100" Height="26" 
+                                        HorizontalAlignment="Left">
+                                    <TextBlock Text="{Binding Status}" 
+                                            Foreground="White" 
+                                            FontSize="12" 
+                                            FontWeight="SemiBold" 
+                                            HorizontalAlignment="Center" 
+                                            VerticalAlignment="Center"/>
+                                </Border>
+                                
+                                <StackPanel Grid.Column="5" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                    <Button Style="{StaticResource ActionButtonStyle}" 
+                                            Content="&#xE70F;" 
+                                            FontFamily="Segoe MDL2 Assets"
+                                            Background="Transparent"
+                                            Tag="{Binding Id}"
+                                            Click="EditAssignment_Click"
+                                            ToolTip="Düzenle" />
+                                    <Button Style="{StaticResource ActionButtonStyle}" 
+                                            Content="&#xE74D;" 
+                                            FontFamily="Segoe MDL2 Assets"
+                                            Foreground="{DynamicResource ErrorBrush}"
+                                            Background="Transparent"
+                                            Tag="{Binding Id}"
+                                            Click="DeleteAssignment_Click"
+                                            Margin="5,0,0,0"
+                                            ToolTip="Sil" />
+                                </StackPanel>
+                            </Grid>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+                
+                <!-- Veri Yok Ekranı -->
+                <Grid x:Name="NoDataPanel" Grid.Row="1" Visibility="Collapsed">
+                    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <TextBlock Text="&#xE7BA;" FontFamily="Segoe MDL2 Assets" FontSize="48" HorizontalAlignment="Center" Foreground="{DynamicResource TertiaryTextBrush}"/>
+                        <TextBlock Text="Henüz hiç zimmet kaydı bulunmuyor" Margin="0,15,0,5" FontSize="18" FontWeight="SemiBold" Foreground="{DynamicResource SecondaryTextBrush}" HorizontalAlignment="Center"/>
+                        <TextBlock Text="Yeni bir zimmet eklemek için 'Yeni Zimmet' butonuna tıklayın" Foreground="{DynamicResource TertiaryTextBrush}" HorizontalAlignment="Center"/>
+                    </StackPanel>
+                </Grid>
+            </Grid>
+        </Border>
+    </Grid>
+</Page> 

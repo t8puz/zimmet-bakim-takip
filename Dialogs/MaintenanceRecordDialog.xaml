@@ -1,0 +1,187 @@
+<Window 
+    x:Class="Zimmet_Bakim_Takip.Dialogs.MaintenanceRecordDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:local="clr-namespace:Zimmet_Bakim_Takip.Dialogs"
+    xmlns:controls="clr-namespace:Zimmet_Bakim_Takip.Controls"
+    mc:Ignorable="d"
+    Title="Bakım Kaydı"
+    Height="700" Width="600"
+    WindowStartupLocation="CenterOwner"
+    Background="{DynamicResource SecondaryBackgroundBrush}"
+    ResizeMode="NoResize">
+
+    <Grid Margin="15">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <!-- Başlık -->
+        <TextBlock x:Name="txtTitle" 
+                   Grid.Row="0" 
+                   Text="Yeni Bakım Kaydı" 
+                   FontSize="18" 
+                   FontWeight="Bold"
+                   Foreground="{DynamicResource PrimaryTextBrush}"
+                   Margin="0,0,0,15" />
+
+        <!-- Form Alanları -->
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+            <StackPanel>
+                <!-- Cihaz Seçimi -->
+                <TextBlock Text="Cihaz:" Margin="0,5,0,2" Foreground="{DynamicResource PrimaryTextBrush}" />
+                <Grid Margin="0,0,0,10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <ComboBox x:Name="cmbDevice" 
+                              Grid.Column="0"
+                              Height="35"
+                              DisplayMemberPath="Name" 
+                              SelectedValuePath="Id"/>
+                    <Button x:Name="btnAddDevice"
+                            Grid.Column="1"
+                            Content="+"
+                            Width="30"
+                            Margin="5,0,0,0"
+                            Background="{DynamicResource PrimaryBrush}"
+                            Foreground="{DynamicResource PrimaryTextBrush}"
+                            BorderThickness="0"
+                            Click="btnAddDevice_Click">
+                        <Button.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="5"/>
+                            </Style>
+                        </Button.Resources>
+                        <Button.ToolTip>
+                            <ToolTip Content="Yeni Cihaz Ekle"/>
+                        </Button.ToolTip>
+                    </Button>
+                </Grid>
+
+                <!-- Bakım Tarihi -->
+                <TextBlock Text="Bakım Tarihi:" Margin="0,5,0,2" Foreground="{DynamicResource PrimaryTextBrush}" />
+                <DatePicker x:Name="dpMaintenanceDate" 
+                           Height="35"
+                           Margin="0,0,0,10" 
+                           SelectedDateChanged="DatePicker_SelectedDateChanged" />
+
+                <!-- Sonraki Bakım Tarihi -->
+                <TextBlock Text="Sonraki Bakım Tarihi:" Margin="0,5,0,2" Foreground="{DynamicResource PrimaryTextBrush}" />
+                <DatePicker x:Name="dpNextMaintenanceDate" 
+                           Height="35"
+                           Margin="0,0,0,10" />
+
+                <!-- Bakım Tipi -->
+                <TextBlock Text="Bakım Tipi:" Margin="0,5,0,2" Foreground="{DynamicResource PrimaryTextBrush}" />
+                <ComboBox x:Name="cmbMaintenanceType" 
+                          Height="35"
+                          Margin="0,0,0,10" />
+
+                <!-- Teknisyen Adı -->
+                <TextBlock Text="Teknisyen Adı:" Margin="0,5,0,2" Foreground="{DynamicResource PrimaryTextBrush}" />
+                <TextBox x:Name="txtTechnicianName" 
+                         Margin="0,0,0,10"
+                         Background="{DynamicResource SidebarBackgroundBrush}"
+                         Foreground="{DynamicResource PrimaryTextBrush}"
+                         BorderBrush="{DynamicResource BorderBrush}" />
+
+                <!-- Departman -->
+                <TextBlock Text="Departman:" Margin="0,5,0,2" Foreground="{DynamicResource PrimaryTextBrush}" />
+                <TextBox x:Name="txtDepartment" 
+                         Margin="0,0,0,10"
+                         Background="{DynamicResource SidebarBackgroundBrush}"
+                         Foreground="{DynamicResource PrimaryTextBrush}"
+                         BorderBrush="{DynamicResource BorderBrush}" />
+
+                <!-- Durum -->
+                <TextBlock Text="Durum:" Margin="0,5,0,2" Foreground="{DynamicResource PrimaryTextBrush}" />
+                <ComboBox x:Name="cmbStatus" 
+                          Height="35"
+                          Margin="0,0,0,10">
+                    <ComboBoxItem>Planlandı</ComboBoxItem>
+                    <ComboBoxItem>Devam Ediyor</ComboBoxItem>
+                    <ComboBoxItem>Tamamlandı</ComboBoxItem>
+                    <ComboBoxItem>İptal Edildi</ComboBoxItem>
+                    <ComboBoxItem>Ertelendi</ComboBoxItem>
+                </ComboBox>
+
+                <!-- Maliyet -->
+                <TextBlock Text="Maliyet (TL):" Margin="0,5,0,2" Foreground="{DynamicResource PrimaryTextBrush}" />
+                <TextBox x:Name="txtCost" 
+                         Margin="0,0,0,10" 
+                         PreviewTextInput="NumberValidationTextBox"
+                         Background="{DynamicResource SidebarBackgroundBrush}"
+                         Foreground="{DynamicResource PrimaryTextBrush}"
+                         BorderBrush="{DynamicResource BorderBrush}" />
+
+                <!-- Açıklama -->
+                <TextBlock Text="Açıklama:" Margin="0,5,0,2" Foreground="{DynamicResource PrimaryTextBrush}" />
+                <TextBox x:Name="txtDescription" 
+                         Margin="0,0,0,10" 
+                         TextWrapping="Wrap"
+                         AcceptsReturn="True"
+                         Height="80"
+                         Background="{DynamicResource SidebarBackgroundBrush}"
+                         Foreground="{DynamicResource PrimaryTextBrush}"
+                         BorderBrush="{DynamicResource BorderBrush}" />
+
+                <!-- Notlar -->
+                <TextBlock Text="Notlar:" Margin="0,5,0,2" Foreground="{DynamicResource PrimaryTextBrush}" />
+                <TextBox x:Name="txtNotes" 
+                         Margin="0,0,0,10" 
+                         TextWrapping="Wrap"
+                         AcceptsReturn="True"
+                         Height="60"
+                         Background="{DynamicResource SidebarBackgroundBrush}"
+                         Foreground="{DynamicResource PrimaryTextBrush}"
+                         BorderBrush="{DynamicResource BorderBrush}" />
+
+                <!-- Dosya Ekleri -->
+                <controls:AttachmentControl x:Name="attachmentControl" Height="200" Margin="0,10,0,0"/>
+            </StackPanel>
+        </ScrollViewer>
+
+        <!-- Butonlar -->
+        <StackPanel Grid.Row="2" 
+                    Orientation="Horizontal" 
+                    HorizontalAlignment="Right" 
+                    Margin="0,15,0,0">
+            <Button x:Name="btnSave" 
+                    Content="Kaydet" 
+                    Width="80" 
+                    Margin="0,0,10,0" 
+                    IsDefault="True"
+                    Background="{DynamicResource SuccessBrush}"
+                    Foreground="{DynamicResource PrimaryTextBrush}"
+                    BorderThickness="0"
+                    Click="btnSave_Click">
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="5"/>
+                    </Style>
+                </Button.Resources>
+            </Button>
+
+            <Button x:Name="btnCancel" 
+                    Content="İptal" 
+                    Width="80" 
+                    IsCancel="True"
+                    Background="{DynamicResource SidebarBackgroundBrush}"
+                    Foreground="{DynamicResource PrimaryTextBrush}"
+                    BorderThickness="0"
+                    Click="btnCancel_Click">
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="5"/>
+                    </Style>
+                </Button.Resources>
+            </Button>
+        </StackPanel>
+    </Grid>
+</Window> 

@@ -1,0 +1,184 @@
+<Window x:Class="Zimmet_Bakim_Takip.Dialogs.DeviceEditDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Zimmet_Bakim_Takip.Dialogs"
+        xmlns:controls="clr-namespace:Zimmet_Bakim_Takip.Controls"
+        mc:Ignorable="d"
+        Title="Cihaz Ekle/Düzenle" Height="700" Width="600"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="NoResize" 
+        Background="{DynamicResource SecondaryBackgroundBrush}">
+
+    <Window.Resources>
+        <!-- Input stil tanımları -->
+        <Style x:Key="FormLabel" TargetType="TextBlock">
+            <Setter Property="Margin" Value="0,0,0,5"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Foreground" Value="{DynamicResource PrimaryTextBrush}"/>
+        </Style>
+        
+        <Style x:Key="FormInput" TargetType="TextBox">
+            <Setter Property="Height" Value="35"/>
+            <Setter Property="Padding" Value="10,0"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="0,0,0,15"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource BorderBrush}"/>
+            <Setter Property="Background" Value="{DynamicResource SidebarBackgroundBrush}"/>
+            <Setter Property="Foreground" Value="{DynamicResource PrimaryTextBrush}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TextBox}">
+                        <Border x:Name="border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" CornerRadius="4" SnapsToDevicePixels="True">
+                            <ScrollViewer x:Name="PART_ContentHost" Focusable="False" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource PrimaryBrush}"/>
+                            </Trigger>
+                            <Trigger Property="IsFocused" Value="True">
+                                <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource PrimaryBrush}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
+        <Style x:Key="PrimaryButton" TargetType="Button">
+            <Setter Property="Padding" Value="20,10"/>
+            <Setter Property="Background" Value="{DynamicResource PrimaryBrush}"/>
+            <Setter Property="Foreground" Value="{DynamicResource PrimaryTextBrush}"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border" Background="{TemplateBinding Background}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="4" Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="{DynamicResource PrimaryDarkBrush}"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" Value="{DynamicResource PrimaryDarkBrush}"/>
+                                <Setter Property="Opacity" Value="0.8"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
+        <Style x:Key="SecondaryButton" TargetType="Button">
+            <Setter Property="Padding" Value="20,10"/>
+            <Setter Property="Background" Value="{DynamicResource SidebarBackgroundBrush}"/>
+            <Setter Property="Foreground" Value="{DynamicResource PrimaryTextBrush}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource BorderBrush}"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="4" Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="{DynamicResource CardBackgroundBrush}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <Grid Margin="25">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        
+        <!-- Başlık -->
+        <TextBlock x:Name="DialogTitle" Text="Yeni Cihaz Ekle" FontSize="20" FontWeight="SemiBold" Margin="0,0,0,20" Foreground="{DynamicResource PrimaryTextBrush}"/>
+        
+        <!-- Form Alanları -->
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+            <StackPanel>
+                <!-- Cihaz Adı -->
+                <TextBlock Text="Cihaz Adı *" Style="{StaticResource FormLabel}"/>
+                <TextBox x:Name="DeviceNameTextBox" Style="{StaticResource FormInput}"/>
+                
+                <!-- Cihaz Tipi -->
+                <TextBlock Text="Cihaz Tipi *" Style="{StaticResource FormLabel}"/>
+                <ComboBox x:Name="DeviceTypeComboBox" 
+                          Height="35"
+                          Margin="0,0,0,15"
+                          SelectedIndex="0">
+                    <ComboBoxItem>Dizüstü Bilgisayar</ComboBoxItem>
+                    <ComboBoxItem>Masaüstü Bilgisayar</ComboBoxItem>
+                    <ComboBoxItem>Tablet</ComboBoxItem>
+                    <ComboBoxItem>Monitör</ComboBoxItem>
+                    <ComboBoxItem>Yazıcı</ComboBoxItem>
+                    <ComboBoxItem>Projektör</ComboBoxItem>
+                    <ComboBoxItem>Klavye</ComboBoxItem>
+                    <ComboBoxItem>Fare</ComboBoxItem>
+                    <ComboBoxItem>Akıllı Telefon</ComboBoxItem>
+                    <ComboBoxItem>Sunucu</ComboBoxItem>
+                    <ComboBoxItem>Diğer</ComboBoxItem>
+                </ComboBox>
+                
+                <!-- Departman -->
+                <TextBlock Text="Departman" Style="{StaticResource FormLabel}"/>
+                <TextBox x:Name="DepartmentTextBox" Style="{StaticResource FormInput}"/>
+                
+                <!-- Seri Numarası -->
+                <TextBlock Text="Seri Numarası" Style="{StaticResource FormLabel}"/>
+                <TextBox x:Name="SerialNumberTextBox" Style="{StaticResource FormInput}"/>
+                
+                <!-- Durum -->
+                <TextBlock Text="Durum *" Style="{StaticResource FormLabel}"/>
+                <ComboBox x:Name="StatusComboBox" 
+                          Height="35"
+                          Margin="0,0,0,15"
+                          SelectedIndex="0">
+                    <ComboBoxItem>Müsait</ComboBoxItem>
+                    <ComboBoxItem>Zimmetli</ComboBoxItem>
+                    <ComboBoxItem>Bakımda</ComboBoxItem>
+                    <ComboBoxItem>Arızalı</ComboBoxItem>
+                </ComboBox>
+                
+                <!-- Satın Alma Tarihi -->
+                <TextBlock Text="Satın Alma Tarihi" Style="{StaticResource FormLabel}"/>
+                <DatePicker x:Name="PurchaseDatePicker" 
+                            Height="35"
+                            Margin="0,0,0,15"/>
+                
+                <!-- Garanti Bitiş Tarihi -->
+                <TextBlock Text="Garanti Bitiş Tarihi" Style="{StaticResource FormLabel}"/>
+                <DatePicker x:Name="WarrantyDatePicker" 
+                            Height="35"
+                            Margin="0,0,0,15"/>
+                
+                <!-- Notlar -->
+                <TextBlock Text="Notlar" Style="{StaticResource FormLabel}"/>
+                <TextBox x:Name="NotesTextBox" Style="{StaticResource FormInput}" 
+                         TextWrapping="Wrap" AcceptsReturn="True" 
+                         VerticalContentAlignment="Top" Padding="10"
+                         Height="100"/>
+                
+                <!-- Dosya Ekleri -->
+                <controls:AttachmentControl x:Name="attachmentControl" Height="200" Margin="0,15,0,0"/>
+            </StackPanel>
+        </ScrollViewer>
+        
+        <!-- Butonlar -->
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,15,0,0">
+            <Button Content="İptal" Style="{StaticResource SecondaryButton}" Click="CancelButton_Click" Margin="0,0,10,0"/>
+            <Button Content="Kaydet" Style="{StaticResource PrimaryButton}" Click="SaveButton_Click"/>
+        </StackPanel>
+    </Grid>
+</Window> 

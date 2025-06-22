@@ -1,0 +1,247 @@
+<Page x:Class="Zimmet_Bakim_Takip.Pages.DevicesPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:local="clr-namespace:Zimmet_Bakim_Takip.Pages"
+      xmlns:utilities="clr-namespace:Zimmet_Bakim_Takip.Utilities"
+      xmlns:converters="clr-namespace:Zimmet_Bakim_Takip.Converters"
+      mc:Ignorable="d" 
+      d:DesignHeight="600" d:DesignWidth="800"
+      Title="Cihaz Listesi">
+
+    <Grid Background="{DynamicResource SecondaryBackgroundBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Başlık ve Açıklama -->
+        <StackPanel Grid.Row="0" Margin="0,0,0,20">
+            <TextBlock Text="Cihazlar" FontSize="24" FontWeight="SemiBold" Foreground="{DynamicResource PrimaryTextBrush}" Margin="0,0,0,8"/>
+            <TextBlock Text="Tüm cihazları burada yönetebilirsiniz" Foreground="{DynamicResource SecondaryTextBrush}" FontSize="14"/>
+        </StackPanel>
+
+        <!-- Filtre ve Arama -->
+        <Grid Grid.Row="1" Margin="0,0,0,15">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Arama Kutusu -->
+            <Border Grid.Column="0" Background="{DynamicResource CardBackgroundBrush}" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1" CornerRadius="4" Padding="8,0" Margin="0,0,10,0">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="&#xE721;" FontFamily="Segoe MDL2 Assets" FontSize="16" Foreground="{DynamicResource TertiaryTextBrush}" VerticalAlignment="Center" Margin="5,0,8,0"/>
+                    <TextBox x:Name="SearchBox" Grid.Column="1" BorderThickness="0" Padding="5" FontSize="14" 
+                             Foreground="{DynamicResource PrimaryTextBrush}" Background="Transparent" VerticalContentAlignment="Center"
+                             KeyUp="SearchBox_KeyUp">
+                        <TextBox.Resources>
+                            <Style TargetType="{x:Type Border}">
+                                <Setter Property="CornerRadius" Value="4"/>
+                            </Style>
+                        </TextBox.Resources>
+                    </TextBox>
+                    <Button x:Name="ClearSearchButton" Grid.Column="2" Content="&#xE711;" FontFamily="Segoe MDL2 Assets" 
+                            BorderThickness="0" Background="Transparent" FontSize="12" Margin="5,0" Foreground="{DynamicResource TertiaryTextBrush}"
+                            Visibility="{Binding ElementName=SearchBox, Path=Text, Converter={StaticResource StringToVisibilityConverter}}"
+                            Click="ClearSearchButton_Click" Cursor="Hand"/>
+                </Grid>
+            </Border>
+
+            <!-- Yeni Cihaz Ekleme Butonu -->
+            <Button Grid.Column="1" Content="Yeni Cihaz" Padding="15,10" Background="{DynamicResource PrimaryBrush}" Foreground="{DynamicResource PrimaryTextBrush}" 
+                    BorderThickness="0" Cursor="Hand" Click="AddDeviceButton_Click" FontSize="14">
+                <Button.Resources>
+                    <Style TargetType="{x:Type Border}">
+                        <Setter Property="CornerRadius" Value="4"/>
+                    </Style>
+                </Button.Resources>
+            </Button>
+        </Grid>
+
+        <!-- Cihaz Listesi -->
+        <Border Grid.Row="2" Background="{DynamicResource CardBackgroundBrush}" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1" CornerRadius="8">
+            <Grid>
+                <DataGrid x:Name="DevicesGrid" AutoGenerateColumns="False" IsReadOnly="True" 
+                         HeadersVisibility="Column" GridLinesVisibility="None" 
+                         BorderThickness="0" Background="Transparent" 
+                         SelectionMode="Single" SelectionUnit="FullRow"
+                         SelectionChanged="DevicesGrid_SelectionChanged"
+                         RowStyle="{DynamicResource DeviceRowStyle}">
+                    <DataGrid.Resources>
+                        <Style x:Key="DeviceRowStyle" TargetType="DataGridRow">
+                            <Setter Property="Margin" Value="0,4"/>
+                            <Setter Property="Padding" Value="0,8"/>
+                            <Setter Property="Background" Value="Transparent"/>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="{DynamicResource SidebarBackgroundBrush}"/>
+                                </Trigger>
+                                <Trigger Property="IsSelected" Value="True">
+                                    <Setter Property="Background" Value="{DynamicResource PrimaryBrush}"/>
+                                    <Setter Property="Foreground" Value="{DynamicResource PrimaryTextBrush}"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                        
+                        <!-- DataGrid başlık stili -->
+                        <Style TargetType="DataGridColumnHeader">
+                            <Setter Property="Background" Value="Transparent"/>
+                            <Setter Property="Foreground" Value="{DynamicResource PrimaryTextBrush}"/>
+                            <Setter Property="Padding" Value="10,5"/>
+                            <Setter Property="BorderThickness" Value="0,0,0,1"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource BorderBrush}"/>
+                            <Setter Property="FontWeight" Value="SemiBold"/>
+                        </Style>
+                        
+                        <!-- DataGrid hücreleri için koyu tema stili -->
+                        <Style TargetType="DataGridCell">
+                            <Setter Property="BorderThickness" Value="0"/>
+                            <Setter Property="Padding" Value="10,5"/>
+                            <Setter Property="Background" Value="Transparent"/>
+                            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+                            <Style.Triggers>
+                                <Trigger Property="IsSelected" Value="True">
+                                    <Setter Property="Background" Value="Transparent"/>
+                                    <Setter Property="BorderBrush" Value="Transparent"/>
+                                    <Setter Property="Foreground" Value="{DynamicResource PrimaryTextBrush}"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGrid.Resources>
+                    <DataGrid.Columns>
+                        <DataGridTemplateColumn Width="50">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Border Width="32" Height="32" Background="{DynamicResource SidebarBackgroundBrush}" CornerRadius="4" HorizontalAlignment="Center">
+                                        <TextBlock Text="&#xE770;" FontFamily="Segoe MDL2 Assets" FontSize="14" 
+                                                   Foreground="{DynamicResource PrimaryBrush}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                    </Border>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTextColumn Header="Cihaz Adı" Binding="{Binding Name}" Width="*">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="Padding" Value="10,0"/>
+                                    <Setter Property="VerticalAlignment" Value="Center"/>
+                                    <Setter Property="FontWeight" Value="SemiBold"/>
+                                    <Setter Property="Foreground" Value="{DynamicResource PrimaryTextBrush}"/>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+                        <DataGridTextColumn Header="Tipi" Binding="{Binding Type}" Width="150">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="VerticalAlignment" Value="Center"/>
+                                    <Setter Property="Foreground" Value="{DynamicResource PrimaryTextBrush}"/>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+                        <DataGridTextColumn Header="Seri No" Binding="{Binding SerialNumber}" Width="150">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="VerticalAlignment" Value="Center"/>
+                                    <Setter Property="Foreground" Value="{DynamicResource SecondaryTextBrush}"/>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+                        <DataGridTemplateColumn Header="Durum" Width="120">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Border Background="{Binding Durum, Converter={StaticResource StatusToBrushConverter}}" 
+                                            CornerRadius="4" Padding="8,4" HorizontalAlignment="Left" Margin="5,0">
+                                        <TextBlock Text="{Binding Durum}" Foreground="White" FontSize="12" FontWeight="SemiBold"/>
+                                    </Border>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Width="100">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                        <Button x:Name="EditButton" Content="&#xE70F;" FontFamily="Segoe MDL2 Assets" 
+                                                Click="EditDeviceButton_Click" 
+                                                Tag="{Binding Id}"
+                                                Padding="5" Margin="2,0" Background="Transparent" BorderThickness="0" Cursor="Hand"
+                                                Foreground="{DynamicResource PrimaryTextBrush}"/>
+                                        <Button x:Name="DeleteButton" Content="&#xE74D;" FontFamily="Segoe MDL2 Assets"
+                                                Click="DeleteDeviceButton_Click"
+                                                Tag="{Binding Id}"
+                                                Padding="5" Margin="2,0" Background="Transparent" BorderThickness="0" Cursor="Hand" 
+                                                Foreground="{DynamicResource ErrorBrush}"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+                
+                <!-- Veri Yok Ekranı -->
+                <Grid x:Name="NoDataPanel" Visibility="Collapsed">
+                    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <TextBlock Text="&#xEA41;" FontFamily="Segoe MDL2 Assets" FontSize="48" HorizontalAlignment="Center" Foreground="{DynamicResource TertiaryTextBrush}"/>
+                        <TextBlock Text="Henüz hiç cihaz bulunmuyor" Margin="0,15,0,5" FontSize="18" FontWeight="SemiBold" Foreground="{DynamicResource SecondaryTextBrush}" HorizontalAlignment="Center"/>
+                        <TextBlock Text="Yeni bir cihaz eklemek için 'Yeni Cihaz' butonuna tıklayın" Foreground="{DynamicResource TertiaryTextBrush}" HorizontalAlignment="Center"/>
+                    </StackPanel>
+                </Grid>
+            </Grid>
+        </Border>
+
+        <!-- Sayfalama -->
+        <Grid Grid.Row="3" Margin="0,15,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            
+            <StackPanel Grid.Column="0" Orientation="Horizontal">
+                <TextBlock Text="Toplam:" VerticalAlignment="Center" Margin="0,0,5,0" Foreground="{DynamicResource SecondaryTextBrush}"/>
+                <TextBlock x:Name="TotalDevicesCount" Text="0 Cihaz" VerticalAlignment="Center" FontWeight="SemiBold" Foreground="{DynamicResource PrimaryTextBrush}"/>
+            </StackPanel>
+            
+            <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button Content="&#xE72B;" FontFamily="Segoe MDL2 Assets" 
+                        Padding="8,0" Margin="0,0,5,0" Background="Transparent" BorderThickness="1" BorderBrush="{DynamicResource BorderBrush}" Cursor="Hand"
+                        Click="PreviousPageButton_Click" x:Name="PreviousPageButton" Foreground="{DynamicResource PrimaryTextBrush}">
+                    <Button.Resources>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="CornerRadius" Value="4"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+                <TextBlock x:Name="PageInfoText" Text="Sayfa 1 / 1" VerticalAlignment="Center" Margin="5,0" FontWeight="SemiBold" Foreground="{DynamicResource PrimaryTextBrush}"/>
+                <Button Content="&#xE72A;" FontFamily="Segoe MDL2 Assets"
+                        Padding="8,0" Margin="5,0,0,0" Background="Transparent" BorderThickness="1" BorderBrush="{DynamicResource BorderBrush}" Cursor="Hand"
+                        Click="NextPageButton_Click" x:Name="NextPageButton" Foreground="{DynamicResource PrimaryTextBrush}">
+                    <Button.Resources>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="CornerRadius" Value="4"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+            </StackPanel>
+        </Grid>
+
+        <!-- Yükleme Göstergesi -->
+        <Grid x:Name="LoadingPanel" Visibility="Collapsed" Grid.Row="0" Grid.RowSpan="4" 
+              Background="#80000000" Panel.ZIndex="1000">
+            <Border Background="{DynamicResource CardBackgroundBrush}" CornerRadius="10" Width="300" Height="100" 
+                    HorizontalAlignment="Center" VerticalAlignment="Center">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <ProgressBar IsIndeterminate="True" Width="30" Height="30" Margin="0,0,15,0"/>
+                    <TextBlock Text="Yükleniyor..." VerticalAlignment="Center" FontSize="16" Foreground="{DynamicResource PrimaryTextBrush}"/>
+                </StackPanel>
+            </Border>
+        </Grid>
+    </Grid>
+</Page> 

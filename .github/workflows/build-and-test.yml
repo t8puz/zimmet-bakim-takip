@@ -1,0 +1,43 @@
+name: Build and Test
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+env:
+  DOTNET_VERSION: '8.0.x'
+
+jobs:
+  build:
+    runs-on: windows-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+        
+    - name: Restore dependencies
+      run: dotnet restore Zimmet_Bakim_Takip/Zimmet_Bakim_Takip.csproj
+      
+    - name: Build
+      run: dotnet build Zimmet_Bakim_Takip/Zimmet_Bakim_Takip.csproj --configuration Release --no-restore
+      
+    - name: Test
+      run: dotnet test Zimmet_Bakim_Takip/Zimmet_Bakim_Takip.csproj --configuration Release --no-build --verbosity normal
+      continue-on-error: true
+      
+    - name: Publish
+      run: dotnet publish Zimmet_Bakim_Takip/Zimmet_Bakim_Takip.csproj --configuration Release --output ./publish --no-build
+      
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: zimmet-bakim-takip-${{ github.sha }}
+        path: ./publish
+        retention-days: 30 

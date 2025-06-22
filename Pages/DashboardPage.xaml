@@ -1,0 +1,172 @@
+<Page x:Class="Zimmet_Bakim_Takip.Pages.DashboardPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Zimmet_Bakim_Takip.Pages"
+      mc:Ignorable="d" 
+      Title="Dashboard">
+
+    <Page.Resources>
+        <!-- Logo kaynağı -->
+        <BitmapImage x:Key="AppLogo" UriSource="/Images/logo.png"/>
+    </Page.Resources>
+
+    <Grid Background="{DynamicResource BackgroundBrush}" Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Başlık -->
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            
+            <!-- Logo -->
+            <Image Source="{StaticResource AppLogo}" Height="40" Width="40" Grid.Column="0" Margin="0,0,15,15" VerticalAlignment="Center"/>
+            
+            <TextBlock Text="Dashboard" FontSize="22" FontWeight="SemiBold" Margin="0,0,0,15" Foreground="{DynamicResource PrimaryTextBrush}" Grid.Column="1" VerticalAlignment="Center"/>
+            
+            <!-- Örnek Veri Butonu -->
+            <Button x:Name="btnGenerateSampleData" Content="Örnek Veri Oluştur" Grid.Column="2" Margin="0,0,0,15" 
+                    Background="{DynamicResource PrimaryBrush}" Foreground="{DynamicResource PrimaryTextBrush}"
+                    BorderThickness="0" Padding="10,5" Click="btnGenerateSampleData_Click">
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="5"/>
+                    </Style>
+                </Button.Resources>
+            </Button>
+        </Grid>
+
+        <!-- İstatistik Kartları -->
+        <WrapPanel Grid.Row="1" Margin="0,10">
+            <!-- Toplam Cihaz -->
+            <Border Background="{DynamicResource CardBackgroundBrush}" CornerRadius="8" Padding="15" Margin="10" Width="220">
+                <Border.Effect>
+                    <DropShadowEffect BlurRadius="8" ShadowDepth="1" Opacity="0.15"/>
+                </Border.Effect>
+                <StackPanel>
+                    <TextBlock Text="&#xE7F4;" FontFamily="Segoe MDL2 Assets" 
+                             FontSize="24" Foreground="{DynamicResource PrimaryBrush}" HorizontalAlignment="Center"/>
+                    <TextBlock x:Name="TotalDevicesText" Text="0" 
+                             FontSize="36" FontWeight="Bold" HorizontalAlignment="Center" Foreground="{DynamicResource PrimaryBrush}"/>
+                    <TextBlock Text="Toplam Cihaz" FontSize="14" HorizontalAlignment="Center" Margin="0,5,0,0" Foreground="{DynamicResource SecondaryTextBrush}"/>
+                </StackPanel>
+            </Border>
+
+            <!-- Zimmetli Cihazlar -->
+            <Border Background="{DynamicResource CardBackgroundBrush}" CornerRadius="8" Padding="15" Margin="10" Width="220">
+                <Border.Effect>
+                    <DropShadowEffect BlurRadius="8" ShadowDepth="1" Opacity="0.15"/>
+                </Border.Effect>
+                <StackPanel>
+                    <TextBlock Text="&#xE77B;" FontFamily="Segoe MDL2 Assets" 
+                             FontSize="24" Foreground="{DynamicResource SuccessBrush}" HorizontalAlignment="Center"/>
+                    <TextBlock x:Name="AssignedDevicesText" Text="0" 
+                             FontSize="36" FontWeight="Bold" HorizontalAlignment="Center" Foreground="{DynamicResource SuccessBrush}"/>
+                    <TextBlock Text="Zimmetli Cihaz" FontSize="14" HorizontalAlignment="Center" Margin="0,5,0,0" Foreground="{DynamicResource SecondaryTextBrush}"/>
+                </StackPanel>
+            </Border>
+
+            <!-- Bakımdaki Cihazlar -->
+            <Border Background="{DynamicResource CardBackgroundBrush}" CornerRadius="8" Padding="15" Margin="10" Width="220">
+                <Border.Effect>
+                    <DropShadowEffect BlurRadius="8" ShadowDepth="1" Opacity="0.15"/>
+                </Border.Effect>
+                <StackPanel>
+                    <TextBlock Text="&#xE90F;" FontFamily="Segoe MDL2 Assets" 
+                             FontSize="24" Foreground="{DynamicResource WarningBrush}" HorizontalAlignment="Center"/>
+                    <TextBlock x:Name="MaintenanceDevicesText" Text="0" 
+                             FontSize="36" FontWeight="Bold" HorizontalAlignment="Center" Foreground="{DynamicResource WarningBrush}"/>
+                    <TextBlock Text="Bakımda" FontSize="14" HorizontalAlignment="Center" Margin="0,5,0,0" Foreground="{DynamicResource SecondaryTextBrush}"/>
+                </StackPanel>
+            </Border>
+
+            <!-- Yaklaşan Bakımlar -->
+            <Border Background="{DynamicResource CardBackgroundBrush}" CornerRadius="8" Padding="15" Margin="10" Width="220">
+                <Border.Effect>
+                    <DropShadowEffect BlurRadius="8" ShadowDepth="1" Opacity="0.15"/>
+                </Border.Effect>
+                <StackPanel>
+                    <TextBlock Text="&#xE8D1;" FontFamily="Segoe MDL2 Assets" 
+                             FontSize="24" Foreground="{DynamicResource ErrorBrush}" HorizontalAlignment="Center"/>
+                    <TextBlock x:Name="UpcomingMaintenanceText" Text="0" 
+                             FontSize="36" FontWeight="Bold" HorizontalAlignment="Center" Foreground="{DynamicResource ErrorBrush}"/>
+                    <TextBlock Text="Yaklaşan Bakım" FontSize="14" HorizontalAlignment="Center" Margin="0,5,0,0" Foreground="{DynamicResource SecondaryTextBrush}"/>
+                </StackPanel>
+            </Border>
+        </WrapPanel>
+
+        <!-- Alt Bölüm -->
+        <Grid Grid.Row="2" Margin="0,10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Son Zimmet İşlemleri -->
+            <Border Background="{DynamicResource CardBackgroundBrush}" CornerRadius="8" Padding="15" Margin="0,0,5,0" Grid.Column="0">
+                <Border.Effect>
+                    <DropShadowEffect BlurRadius="8" ShadowDepth="1" Opacity="0.15"/>
+                </Border.Effect>
+                <DockPanel>
+                    <TextBlock Text="Son Zimmet İşlemleri" DockPanel.Dock="Top" 
+                             FontSize="18" FontWeight="SemiBold" Margin="0,0,0,15" Foreground="{DynamicResource PrimaryTextBrush}"/>
+                    <ListView x:Name="RecentAssignmentsList" BorderThickness="0" Background="Transparent">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Margin="0,5">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <StackPanel Grid.Column="0">
+                                        <TextBlock Text="{Binding DeviceName}" FontWeight="SemiBold" Foreground="{DynamicResource PrimaryTextBrush}"/>
+                                        <TextBlock Text="{Binding PersonnelName}" Foreground="{DynamicResource TertiaryTextBrush}"/>
+                                    </StackPanel>
+                                    <TextBlock Grid.Column="1" Text="{Binding Date}" 
+                                             Foreground="{DynamicResource TertiaryTextBrush}" VerticalAlignment="Center"/>
+                                </Grid>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </DockPanel>
+            </Border>
+
+            <!-- Yaklaşan Bakımlar -->
+            <Border Background="{DynamicResource CardBackgroundBrush}" CornerRadius="8" Padding="15" Margin="5,0,0,0" Grid.Column="1">
+                <Border.Effect>
+                    <DropShadowEffect BlurRadius="8" ShadowDepth="1" Opacity="0.15"/>
+                </Border.Effect>
+                <DockPanel>
+                    <TextBlock Text="Yaklaşan Bakımlar" DockPanel.Dock="Top" 
+                             FontSize="18" FontWeight="SemiBold" Margin="0,0,0,15" Foreground="{DynamicResource PrimaryTextBrush}"/>
+                    <ListView x:Name="UpcomingMaintenanceList" BorderThickness="0" Background="Transparent">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Margin="0,5">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <StackPanel Grid.Column="0">
+                                        <TextBlock Text="{Binding DeviceName}" FontWeight="SemiBold" Foreground="{DynamicResource PrimaryTextBrush}"/>
+                                        <TextBlock Text="{Binding MaintenanceType}" Foreground="{DynamicResource TertiaryTextBrush}"/>
+                                    </StackPanel>
+                                    <TextBlock Grid.Column="1" Text="{Binding Date}" 
+                                             Foreground="{DynamicResource TertiaryTextBrush}" VerticalAlignment="Center"/>
+                                </Grid>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </DockPanel>
+            </Border>
+        </Grid>
+    </Grid>
+</Page> 
