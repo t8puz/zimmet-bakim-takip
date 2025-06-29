@@ -36,13 +36,19 @@
 
 **⚡ En hızlı yol - Direkt kullanım için:**
 
+### 🚀 **STANDALONE EXE (ÖNERİLEN) - .NET Gerektirmez**
 1. **GitHub'a gidin**: https://github.com/t8puz/zimmet-bakim-takip
-2. **Zip dosyasını indirin**: `Zimmet_Bakim_Takip_v1.0.0.zip` dosyasına tıklayın
-3. **İndir butonu**: Dosya sayfasında "Download" veya "İndir" butonuna tıklayın
-4. **Zip'i açın**: İndirilen zip dosyasını bir klasöre çıkarın
-5. **Çalıştırın**: `Zimmet_Bakim_Takip.exe` dosyasına çift tıklayın
+2. **Standalone zip'i indirin**: `Zimmet_Bakim_Takip_Standalone_v1.0.1.zip` (65MB)
+3. **Zip'i açın** ve `Zimmet_Bakim_Takip.exe` dosyasına **çift tıklayın**
+4. **Hiçbir yükleme gerekmez!** Direkt çalışır ✅
 
-**🔗 Direkt Bağlantı**: [Zimmet_Bakim_Takip_v1.0.0.zip](https://github.com/t8puz/zimmet-bakim-takip/blob/main/Zimmet_Bakim_Takip_v1.0.0.zip)
+**🔗 Direkt Bağlantı**: [Zimmet_Bakim_Takip_Standalone_v1.0.1.zip](https://github.com/t8puz/zimmet-bakim-takip/blob/main/Zimmet_Bakim_Takip_Standalone_v1.0.1.zip)
+
+### 📦 **Normal Exe (.NET 8.0 Gerektirir)**
+1. **Alternatif olarak**: `Zimmet_Bakim_Takip_v1.0.0.zip` dosyasını indirin
+2. **Daha küçük** (66KB) ama .NET 8.0 Desktop Runtime gerektirir
+
+**🔗 Normal Exe**: [Zimmet_Bakim_Takip_v1.0.0.zip](https://github.com/t8puz/zimmet-bakim-takip/blob/main/Zimmet_Bakim_Takip_v1.0.0.zip)
 
 ### 📦 Releases'den İndirme (Alternatif)
 
@@ -172,7 +178,13 @@ Projeye katkıda bulunmak istiyorsanız:
 ## 🔧 Sorun Giderme
 
 ### ❌ Program Açılmıyor
-**Çözüm 1**: .NET 8.0 Desktop Runtime'ı yükleyin
+
+**🚀 ÖNERİLEN ÇÖZÜM**: Standalone Exe kullanın
+- `Zimmet_Bakim_Takip_Standalone_v1.0.1.zip` dosyasını indirin
+- **Hiçbir ek yükleme gerektirmez!**
+- Direkt çalışır, .NET runtime'a ihtiyaç duymaz
+
+**Çözüm 1**: Normal exe için .NET 8.0 Desktop Runtime'ı yükleyin
 - [İndirme Linki](https://dotnet.microsoft.com/download/dotnet/8.0)
 - "NET Desktop Runtime 8.0" seçin (Windows x64)
 
