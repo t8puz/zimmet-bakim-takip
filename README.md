@@ -30,6 +30,32 @@
 - **Import/Export**: Verilerinizi kolayca yedekleme ve aktarma
 - **Cloud Sync**: Bulut senkronizasyon desteği
 
+## 📥 Hızlı İndirme
+
+### 💻 Hazır Exe Dosyası (Önerilen)
+
+**⚡ En hızlı yol - Direkt kullanım için:**
+
+1. **GitHub'a gidin**: https://github.com/t8puz/zimmet-bakim-takip
+2. **Zip dosyasını indirin**: `Zimmet_Bakim_Takip_v1.0.0.zip` dosyasına tıklayın
+3. **İndir butonu**: Dosya sayfasında "Download" veya "İndir" butonuna tıklayın
+4. **Zip'i açın**: İndirilen zip dosyasını bir klasöre çıkarın
+5. **Çalıştırın**: `Zimmet_Bakim_Takip.exe` dosyasına çift tıklayın
+
+**🔗 Direkt Bağlantı**: [Zimmet_Bakim_Takip_v1.0.0.zip](https://github.com/t8puz/zimmet-bakim-takip/blob/main/Zimmet_Bakim_Takip_v1.0.0.zip)
+
+### 📦 Releases'den İndirme (Alternatif)
+
+1. **Releases sekmesi**: GitHub sayfasında sağ tarafta "Releases" sekmesine tıklayın
+2. **En son sürüm**: "Latest" etiketli sürümü bulun
+3. **Assets**: "Assets" bölümünde zip dosyasını indirin
+
+### ⚠️ .NET 8.0 Runtime Gereksinimi
+
+Eğer program çalışmazsa, .NET 8.0 Desktop Runtime'ı yükleyin:
+- **İndirme Linki**: https://dotnet.microsoft.com/download/dotnet/8.0
+- **Seçin**: ".NET Desktop Runtime 8.0" (Windows x64)
+
 ## 🚀 Kurulum
 
 ### Sistem Gereksinimleri
@@ -57,12 +83,13 @@ dotnet run
 ```
 
 ### Son Kullanıcılar İçin
-1. **Releases** sekmesinden en son sürümü indirin
-2. `.exe` dosyasını çalıştırın
-3. Kurulum sihirbazını takip edin
-4. Uygulamayı başlatın ve varsayılan kullanıcı ile giriş yapın:
+1. **Yukarıdaki "Hızlı İndirme" bölümünden** zip dosyasını indirin
+2. **Zip dosyasını açın** ve bir klasöre çıkarın
+3. **Zimmet_Bakim_Takip.exe** dosyasına çift tıklayın
+4. **İlk giriş** için varsayılan kullanıcıyı kullanın:
    - **Kullanıcı Adı**: `admin`
    - **Şifre**: `admin123`
+5. **Güvenlik için** ilk girişten sonra şifrenizi değiştirin
 
 ## 📖 Kullanım Kılavuzu
 
@@ -141,6 +168,31 @@ Projeye katkıda bulunmak istiyorsanız:
 - 🔄 Gelişmiş raporlama
 - 🔄 QR kod desteği
 - 🔄 E-posta bildirimleri
+
+## 🔧 Sorun Giderme
+
+### ❌ Program Açılmıyor
+**Çözüm 1**: .NET 8.0 Desktop Runtime'ı yükleyin
+- [İndirme Linki](https://dotnet.microsoft.com/download/dotnet/8.0)
+- "NET Desktop Runtime 8.0" seçin (Windows x64)
+
+**Çözüm 2**: Windows Defender/Antivirüs
+- Zimmet_Bakim_Takip.exe'yi güvenilir dosyalar listesine ekleyin
+
+### ❌ "Veritabanı Hatası" Mesajı
+**Çözüm**: 
+- Program klasöründe yazma izni olduğundan emin olun
+- Programı "Yönetici olarak çalıştır" seçeneği ile açın
+
+### ❌ "Giriş Başarısız" Hatası
+**Varsayılan bilgiler**:
+- Kullanıcı Adı: `admin`
+- Şifre: `admin123`
+
+### ❌ Exe Dosyası Bulunamıyor
+1. GitHub'da `Zimmet_Bakim_Takip_v1.0.0.zip` dosyasını arayın
+2. Zip dosyasını tamamen çıkarın
+3. `Zimmet_Bakim_Takip.exe` dosyasını bulun
 
 ## 🐛 Sorun Bildirimi
 
