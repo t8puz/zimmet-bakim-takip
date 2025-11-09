@@ -228,6 +228,60 @@ namespace Zimmet_Bakim_Takip
             
             // Uygulama klasörleri oluştur
             InitializeAppFolders();
+
+            // İlk çalıştırmada kısayol teklif et
+            try
+            {
+                string dataFolderPath = AppDbContextFactory.GetDataFolderPath();
+                Directory.CreateDirectory(dataFolderPath);
+                string shortcutMarker = Path.Combine(dataFolderPath, "shortcut.created");
+
+                if (!File.Exists(shortcutMarker))
+                {
+                    var result = MessageBox.Show(
+                        "Masaüstü ve Başlat menüsüne kısayol oluşturulsun mu?",
+                        "Kısayol Oluşturma",
+                        MessageBoxButton.YesNo,
+                        MessageBoxImage.Question);
+                    
+                    if (result == MessageBoxResult.Yes)
+                    {
+                        string? exePath = Process.GetCurrentProcess().MainModule?.FileName;
+                        if (!string.IsNullOrWhiteSpace(exePath) && File.Exists(exePath))
+                        {
+                            string appName = "Zimmet Bakım Takip";
+                            bool desktopOk = ShortcutHelper.CreateDesktopShortcut(exePath, appName, exePath, "Zimmet Bakım Takip Sistemi");
+                            bool startMenuOk = ShortcutHelper.CreateStartMenuShortcut(exePath, appName, exePath, "Zimmet Bakım Takip Sistemi");
+
+                            // İşaret bırak
+                            File.WriteAllText(shortcutMarker, $"{DateTime.Now:O}|desktop={desktopOk}|startMenu={startMenuOk}");
+
+                            if (!desktopOk || !startMenuOk)
+                            {
+                                MessageBox.Show("Kısayol oluşturma sırasında bir sorun oluştu. Gerekirse manuel oluşturabilirsiniz.", 
+                                    "Kısayol", MessageBoxButton.OK, MessageBoxImage.Warning);
+                            }
+                        }
+                        else
+                        {
+                            // İşaret bırak ama uyar
+                            File.WriteAllText(shortcutMarker, $"{DateTime.Now:O}|exe=not_found");
+                            MessageBox.Show("Çalıştırılabilir dosya yolu tespit edilemedi. Kısayol oluşturulamadı.", 
+                                "Kısayol", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        }
+                    }
+                    else
+                    {
+                        // Kullanıcı istemedi, bir daha sorma
+                        File.WriteAllText(shortcutMarker, $"{DateTime.Now:O}|user_declined");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Kısayol oluşturma denemesinde hata: {ex.Message}");
+                // Sessizce devam et
+            }
             
             // Veritabanı dosyasına erişimi kontrol et
             if (!AppDbContextFactory.CheckDatabaseFileAccess())
