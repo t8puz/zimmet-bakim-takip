@@ -397,7 +397,7 @@ namespace Zimmet_Bakim_Takip.Pages
                     "Hata", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
-
+        
         // Verileri sıfırlama işlemi
         private async void ResetData_Click(object sender, RoutedEventArgs e)
         {

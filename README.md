@@ -34,21 +34,22 @@
 
 ### 💻 Hazır Exe Dosyası (Önerilen)
 
-**⚡ En hızlı yol - Direkt kullanım için:**
+**⚡ En hızlı yol - Direkt kullanım için (v1.0.2):**
 
-### 🚀 **STANDALONE EXE (ÖNERİLEN) - .NET Gerektirmez**
-1. **GitHub'a gidin**: https://github.com/t8puz/zimmet-bakim-takip
-2. **Standalone zip'i indirin**: `Zimmet_Bakim_Takip_Standalone_v1.0.1.zip` (65MB)
+### 🚀 **STANDALONE (Klasör) – ÖNERİLEN – .NET Gerektirmez**
+1. **GitHub'a gidin**: https://github.com/t8puz/zimmet-bakim-takip/releases
+2. **Standalone klasör zip'ini indirin**: `Zimmet_Bakim_Takip_v1.0.2_Standalone_Folder.zip`
 3. **Zip'i açın** ve `Zimmet_Bakim_Takip.exe` dosyasına **çift tıklayın**
 4. **Hiçbir yükleme gerekmez!** Direkt çalışır ✅
 
-**🔗 Direkt Bağlantı**: [Zimmet_Bakim_Takip_Standalone_v1.0.1.zip](https://github.com/t8puz/zimmet-bakim-takip/blob/main/Zimmet_Bakim_Takip_Standalone_v1.0.1.zip)
+> Alternatifler (v1.0.2)
+- `Zimmet_Bakim_Takip_v1.0.2_Standalone_SingleFile.zip` (tek dosya, .NET gerekmez)
+- `Zimmet_Bakim_Takip_v1.0.2_Runtime_Folder.zip` (.NET 8 Desktop Runtime gerekir)
+- `Zimmet_Bakim_Takip_v1.0.2_Runtime_SingleFile.zip` (.NET 8 Desktop Runtime gerekir)
 
-### 📦 **Normal Exe (.NET 8.0 Gerektirir)**
-1. **Alternatif olarak**: `Zimmet_Bakim_Takip_v1.0.0.zip` dosyasını indirin
-2. **Daha küçük** (66KB) ama .NET 8.0 Desktop Runtime gerektirir
-
-**🔗 Normal Exe**: [Zimmet_Bakim_Takip_v1.0.0.zip](https://github.com/t8puz/zimmet-bakim-takip/blob/main/Zimmet_Bakim_Takip_v1.0.0.zip)
+### 📦 Notlar
+- Standalone paketler **.NET yüklemesi gerektirmez** (önerilen).
+- Runtime paketleri daha küçük boyutlu olur ama **.NET 8 Desktop Runtime** ister.
 
 ### 📦 Releases'den İndirme (Alternatif)
 
@@ -160,6 +161,11 @@ Projeye katkıda bulunmak istiyorsanız:
 
 ## 📊 Sürüm Geçmişi
 
+### v1.0.2 (2025-11-09)
+- ✅ Self-contained (Standalone) 4 varyantlı dağıtım eklendi
+- ✅ Global hata yakalama ve `Logs/error_*.log` yazımı eklendi
+- ✅ Sorun giderme ve indirme talimatları güncellendi
+
 ### v1.0.0 (2025-01-22)
 - ✅ İlk kararlı sürüm
 - ✅ Temel CRUD işlemleri
@@ -179,10 +185,9 @@ Projeye katkıda bulunmak istiyorsanız:
 
 ### ❌ Program Açılmıyor
 
-**🚀 ÖNERİLEN ÇÖZÜM**: Standalone Exe kullanın
-- `Zimmet_Bakim_Takip_Standalone_v1.0.1.zip` dosyasını indirin
-- **Hiçbir ek yükleme gerektirmez!**
-- Direkt çalışır, .NET runtime'a ihtiyaç duymaz
+**🚀 ÖNERİLEN ÇÖZÜM**: Standalone (Klasör) paketini kullanın
+- `Zimmet_Bakim_Takip_v1.0.2_Standalone_Folder.zip` dosyasını indirin ve çalıştırın
+- **Hiçbir ek yükleme gerekmez** (.NET içerir)
 
 **Çözüm 1**: Normal exe için .NET 8.0 Desktop Runtime'ı yükleyin
 - [İndirme Linki](https://dotnet.microsoft.com/download/dotnet/8.0)
@@ -190,6 +195,11 @@ Projeye katkıda bulunmak istiyorsanız:
 
 **Çözüm 2**: Windows Defender/Antivirüs
 - Zimmet_Bakim_Takip.exe'yi güvenilir dosyalar listesine ekleyin
+
+**Çözüm 3**: Hata loglarını kontrol edin
+- Uygulama klasöründe `Logs` klasörü oluşur
+- Açılış/çalışma hataları `Logs/error_*.log` içine yazılır
+- Log dosyasını issue ile paylaşın
 
 ### ❌ "Veritabanı Hatası" Mesajı
 **Çözüm**: 

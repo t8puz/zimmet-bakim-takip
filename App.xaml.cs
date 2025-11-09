@@ -35,6 +35,28 @@ namespace Zimmet_Bakim_Takip
                 
                 // Beklenmeyen hata yakalayıcı ekleyelim
                 this.DispatcherUnhandledException += App_DispatcherUnhandledException;
+                
+                // Uygulama alanındaki yakalanmamış hataları yakala
+                AppDomain.CurrentDomain.UnhandledException += (s, e) =>
+                {
+                    try
+                    {
+                        var ex = e.ExceptionObject as Exception ?? new Exception("Bilinmeyen hata (UnhandledException)");
+                        LogErrorToFile(ex, "AppDomain.UnhandledException");
+                    }
+                    catch { /* yut */ }
+                };
+
+                // Gözlemlenmemiş Task hatalarını yakala
+                TaskScheduler.UnobservedTaskException += (s, e) =>
+                {
+                    try
+                    {
+                        LogErrorToFile(e.Exception, "TaskScheduler.UnobservedTaskException");
+                        e.SetObserved();
+                    }
+                    catch { /* yut */ }
+                };
             }
             catch (Exception ex)
             {
@@ -54,11 +76,57 @@ namespace Zimmet_Bakim_Takip
                 
                 // Hatayı logla
                 Debug.WriteLine($"Beklenmeyen hata: {e.Exception}");
+                LogErrorToFile(e.Exception, "DispatcherUnhandledException");
             }
             catch
             {
                 // En son çare: Hiçbir hata gösterme mekanizması çalışmıyorsa uygulamayı kapat
                 Shutdown();
+            }
+        }
+        
+        /// <summary>
+        /// Hataları uygulama klasöründeki Logs klasörüne yaz.
+        /// </summary>
+        private void LogErrorToFile(Exception ex, string source)
+        {
+            try
+            {
+                string baseDir = AppDomain.CurrentDomain.BaseDirectory;
+                string logsDir = System.IO.Path.Combine(baseDir, "Logs");
+                if (!System.IO.Directory.Exists(logsDir))
+                {
+                    System.IO.Directory.CreateDirectory(logsDir);
+                }
+
+                string fileName = $"error_{DateTime.Now:yyyyMMdd_HHmmss_fff}.log";
+                string filePath = System.IO.Path.Combine(logsDir, fileName);
+
+                var lines = new System.Collections.Generic.List<string>
+                {
+                    $"Kaynak: {source}",
+                    $"Tarih: {DateTime.Now:yyyy-MM-dd HH:mm:ss.fff}",
+                    $"Mesaj: {ex.Message}",
+                    $"Tür: {ex.GetType().FullName}",
+                    "StackTrace:",
+                    ex.StackTrace ?? "(yok)"
+                };
+
+                if (ex.InnerException != null)
+                {
+                    lines.Add("");
+                    lines.Add("InnerException:");
+                    lines.Add($"Mesaj: {ex.InnerException.Message}");
+                    lines.Add($"Tür: {ex.InnerException.GetType().FullName}");
+                    lines.Add("StackTrace:");
+                    lines.Add(ex.InnerException.StackTrace ?? "(yok)");
+                }
+
+                System.IO.File.WriteAllLines(filePath, lines);
+            }
+            catch
+            {
+                // log yazılamıyorsa sessizce geç
             }
         }
         
